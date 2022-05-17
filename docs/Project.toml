@@ -1,0 +1,3 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+FastPriorityQueues = "d4e633c3-44a9-41d8-acf9-6b39ae83a07a"
