@@ -6,3 +6,5 @@
 [![Code Style: Blue](https://img.shields.io/badge/code%20style-blue-4495d1.svg)](https://github.com/invenia/BlueStyle)
 
 Possibly faster alternatives to the priority queue from [DataStructures.jl](https://github.com/JuliaCollections/DataStructures.jl). See the [documentation](https://gdalle.github.io/FastPriorityQueues.jl/dev) for details.
+
+> This package doesn't work yet, so use at your own risk.
