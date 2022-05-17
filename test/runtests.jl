@@ -1,6 +1,7 @@
-using FastPriorityQueues
 using Test
 
-@testset "FastPriorityQueues.jl" begin
-    # Write your tests here.
+@testset verbose = true "FastPriorityQueues.jl" begin
+    @testset verbose = true "VectorPriorityQueue" begin
+        include("vector.jl")
+    end
 end

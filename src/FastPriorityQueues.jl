@@ -1,5 +1,8 @@
 module FastPriorityQueues
 
-# Write your package code here.
+include("vector.jl")
+
+export VectorPriorityQueue
+export enqueue!, dequeue!
 
 end
