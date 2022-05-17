@@ -34,11 +34,11 @@ nothing #hide
 ````
 
 Our [`VectorPriorityQueue`](@ref) doesn't support priority updates, but it has very fast enqueueing and dequeueing routines.
-We hope it will be sufficient to outperform `DataStructures.PriorityQueue` on this test example.
+We hope it will be sufficient to outperform `DataStructures.PriorityQueue` on this example.
 
 ## Results
 
-Let us first verify that our results are coherent.
+Let us first verify that the outputs are coherent with one another.
 
 ````@example benchmarks
 d1 = test_dijkstra(100, PriorityQueue{Int,Float64}; naive=false).dists[end];
