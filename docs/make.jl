@@ -1,7 +1,17 @@
 using FastPriorityQueues
 using Documenter
+using Literate
 
-DocMeta.setdocmeta!(FastPriorityQueues, :DocTestSetup, :(using FastPriorityQueues); recursive=true)
+DocMeta.setdocmeta!(
+    FastPriorityQueues, :DocTestSetup, :(using FastPriorityQueues); recursive=true
+)
+
+Literate.markdown(
+    joinpath(dirname(@__DIR__), "test", "benchmarks.jl"),
+    joinpath(@__DIR__, "src");
+    documenter=true,
+    execute=false,
+)
 
 makedocs(;
     modules=[FastPriorityQueues],
@@ -14,12 +24,8 @@ makedocs(;
         assets=String[],
     ),
     pages=[
-        "Home" => "index.md",
-        "API reference" => "api.md",
+        "Home" => "index.md", "Benchmarks" => "benchmarks.md", "API reference" => "api.md"
     ],
 )
 
-deploydocs(;
-    repo="github.com/gdalle/FastPriorityQueues.jl",
-    devbranch="main",
-)
+deploydocs(; repo="github.com/gdalle/FastPriorityQueues.jl", devbranch="main")

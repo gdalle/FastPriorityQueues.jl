@@ -87,7 +87,9 @@ version = "1.6.0"
 
 [[deps.GridGraphs]]
 deps = ["DataStructures", "Graphs", "SparseArrays"]
-git-tree-sha1 = "fd15399ad7b562c84d74c4789b079d2838f3878d"
+git-tree-sha1 = "c70fe3c17e05202c0100d93fe3eecb9364977262"
+repo-rev = "main"
+repo-url = "https://github.com/gdalle/GridGraphs.jl"
 uuid = "dd2b58c7-5af7-4f17-9e46-57c68ac813fb"
 version = "0.1.3"
 
@@ -134,6 +136,12 @@ uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
 [[deps.LinearAlgebra]]
 deps = ["Libdl", "libblastrampoline_jll"]
 uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+
+[[deps.Literate]]
+deps = ["Base64", "IOCapture", "JSON", "REPL"]
+git-tree-sha1 = "338c0225aabf02779f1c7ab024a17239944cc90d"
+uuid = "98b081ad-f1c9-55d3-8b20-4c87d4299306"
+version = "2.13.2"
 
 [[deps.Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
