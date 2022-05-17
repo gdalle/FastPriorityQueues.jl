@@ -1,5 +1,7 @@
 module FastPriorityQueues
 
+using DataStructures
+
 include("vector.jl")
 
 export VectorPriorityQueue
