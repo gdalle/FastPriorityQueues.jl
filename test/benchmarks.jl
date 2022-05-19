@@ -88,18 +88,18 @@ d4 = test_dijkstra(10, SortedVectorPriorityQueue{Int,Float64}; priority_updates=
 
 # Now we measure execution time and memory allocations for each of the variants.
 
-@btime test_dijkstra(100, PriorityQueue{Int,Float64}; priority_updates=true);
+@benchmark test_dijkstra(100, PriorityQueue{Int,Float64}; priority_updates=true)
 
 #-
 
-@btime test_dijkstra(100, PriorityQueue{Int,Float64}; priority_updates=false);
+@benchmark test_dijkstra(100, PriorityQueue{Int,Float64}; priority_updates=false)
 
 #-
 
-@btime test_dijkstra(100, VectorPriorityQueue{Int,Float64}; priority_updates=false);
+@benchmark test_dijkstra(100, VectorPriorityQueue{Int,Float64}; priority_updates=false)
 
 #-
 
-@btime test_dijkstra(100, SortedVectorPriorityQueue{Int,Float64}; priority_updates=false);
+@benchmark test_dijkstra(100, SortedVectorPriorityQueue{Int,Float64}; priority_updates=false)
 
 # It is clear that vector-based priority queues can be an interesting alternative in this case.
