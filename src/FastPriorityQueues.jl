@@ -2,9 +2,11 @@ module FastPriorityQueues
 
 using DataStructures
 
-include("vector_priority_queue.jl")
+include("vector.jl")
+include("sorted_vector.jl")
 
-export VectorPriorityQueue
 export enqueue!, dequeue!
+export VectorPriorityQueue
+export SortedVectorPriorityQueue
 
 end
