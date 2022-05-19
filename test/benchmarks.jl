@@ -3,6 +3,7 @@
 using BenchmarkTools
 using DataStructures
 using FastPriorityQueues
+using Graphs
 using Test
 
 # ## Setup
@@ -94,7 +95,7 @@ d4 = test_dijkstra(10, SortedVectorPriorityQueue{Int,Float64}; priority_updates=
 
 @benchmark test_dijkstra(100, PriorityQueue{Int,Float64}; priority_updates=false)
 
-#-
+# Disabling priority updates does not change the performance when using the standard queue, because insertion is almost as costly as updating. However, the story is very different with our custom queues.
 
 @benchmark test_dijkstra(100, VectorPriorityQueue{Int,Float64}; priority_updates=false)
 
@@ -102,4 +103,7 @@ d4 = test_dijkstra(10, SortedVectorPriorityQueue{Int,Float64}; priority_updates=
 
 @benchmark test_dijkstra(100, SortedVectorPriorityQueue{Int,Float64}; priority_updates=false)
 
-# It is clear that vector-based priority queues can be an interesting alternative in this case.
+#=
+!!! warning "TODO"
+    Benchmark other containers from DataStructures.jl (heaps and dicts).
+=#
