@@ -101,7 +101,7 @@ d3 = test_dijkstra_no_updates(g_small, w_small, HeapPriorityQueue{Int,Float64});
 
 # Now we measure execution time and memory allocations for each of the queue types.
 
-function compare_dijkstra_versions(n_values; n_samples=3)
+function compare_dijkstra_versions(n_values; n_samples=5)
     speed_gains = Dict(
         "PriorityQueue" => Float64[],
         "VectorPriorityQueue" => Float64[],
@@ -150,7 +150,7 @@ end;
 # To gain precision, we could replace the built-in `@elapsed` with `@belapsed` from [BenchmarkTools.jl](https://github.com/JuliaCI/BenchmarkTools.jl).
 
 n_values = [10, 30, 100, 300, 1000]
-speed_gains, memory_gains = compare_dijkstra_versions(n_values)
+speed_gains, memory_gains = compare_dijkstra_versions(n_values);
 
 # Finally, let us plot the results.
 
@@ -160,13 +160,13 @@ S, N = length(settings), length(n_values);
 # First we compare execution time
 
 plt = plot(;
-    title="Performance of Dijkstra without priority updates",
+    title="Performance of Dijkstra depending on the queue",
     xlabel="Grid side length",
     ylabel="Speed gain wrt. Graphs.jl",
     ylim=(0, Inf),
     xticks=(1:N, string.(n_values)),
     margin=10Plots.mm,
-    legend_position=:topright,
+    legend_position=:best,
 )
 for (k, setting) in enumerate(settings)
     bar!(
@@ -182,7 +182,7 @@ plt
 # And we follow up with memory use
 
 plt = plot(;
-    title="Performance of Dijkstra without priority updates",
+    title="Performance of Dijkstra depending on the queue",
     xlabel="Grid side length",
     ylabel="Memory gain wrt. Graphs.jl",
     ylim=(0, Inf),
