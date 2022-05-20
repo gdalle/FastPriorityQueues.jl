@@ -37,7 +37,9 @@ function dijkstra_updates!(
         end
     end
     return d
-end
+end;
+
+#-
 
 function dijkstra_no_updates!(
     q::Q, g::AbstractGraph{T}, s::Integer, w=weights(g)
@@ -75,7 +77,9 @@ function random_weights(g)
     dsts = dst.(edges(g))
     w = sparse(srcs, dsts, rand(ne(g)), ne(g), ne(g))
     return Symmetric((w + w') / 2)
-end
+end;
+
+#-
 
 test_dijkstra_no_updates(g, w, qtype) = dijkstra_no_updates!(qtype(), g, 1, w)[end];
 test_dijkstra_updates(g, w, qtype) = dijkstra_updates!(qtype(), g, 1, w)[end];
@@ -150,7 +154,7 @@ speed_gains, memory_gains = compare_dijkstra_versions(n_values)
 
 # Finally, let us plot the results.
 
-settings = ["VectorPriorityQueue", "SortedVectorPriorityQueue", "HeapPriorityQueue"]
+settings = ["PriorityQueue", "VectorPriorityQueue", "SortedVectorPriorityQueue", "HeapPriorityQueue"]
 S, N = length(settings), length(n_values);
 
 # First we compare execution time
