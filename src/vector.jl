@@ -1,61 +1,64 @@
 """
     VectorPriorityQueue{K,V}
 
-Priority queue with keys of type `K` and priority values of type `V`, stored as a vector of couples.
+Min priority queue with keys of type `K` and priority values of type `V`, stored as a vector of couples.
 
 # Fields
-- `data::Vector{Pair{K,V}}`: vector of key-value pairs `k => v` sorted by increasing arrival time.
+- `pairs::Vector{Pair{K,V}}`: vector of key-value pairs `k => v` in arbitrary order.
 """
 struct VectorPriorityQueue{K,V}
-    data::Vector{Pair{K,V}}
+    pairs::Vector{Pair{K,V}}
 end
 
 VectorPriorityQueue{K,V}() where {K,V} = VectorPriorityQueue{K,V}(Pair{K,V}[])
 
-function Base.keys(pq::VectorPriorityQueue)
-    p = sortperm(pq.data; by=last)
-    return map(first, pq.data)[p]
-end
-
-function Base.values(pq::VectorPriorityQueue)
-    p = sortperm(pq.data; by=last)
-    return map(last, pq.data)[p]
-end
-
-function Base.pairs(pq::VectorPriorityQueue)
-    return sort(pq.data; by=last)
-end
-
 ## Vector behavior
 
-Base.length(pq::VectorPriorityQueue) = length(pq.data)
-Base.isempty(pq::VectorPriorityQueue) = isempty(pq.data)
+Base.length(pq::VectorPriorityQueue) = length(pq.pairs)
+Base.isempty(pq::VectorPriorityQueue) = isempty(pq.pairs)
 
 function Base.first(pq::VectorPriorityQueue)
-    _, i = findmin(last, pq.data)
-    return pq.data[i]
+    _, i = findmin(last, pq.pairs)
+    return pq.pairs[i]
 end
+
+Base.peek(pq::VectorPriorityQueue) = first(pq)
 
 ## Queue behavior
 
 """
     enqueue!(pq::VectorPriorityQueue, k, v)
 
-Insert `k => v` into the queue `pq`. Amortized complexity `O(1)`.
+Insert `k => v` into the queue `pq`.
+Amortized complexity `O(1)`.
 """
 function DataStructures.enqueue!(pq::VectorPriorityQueue{K,V}, k::K, v::V) where {K,V}
-    push!(pq.data, k => v)
+    push!(pq.pairs, k => v)
     return nothing
 end
 
 """
     dequeue!(pq::VectorPriorityQueue)
 
-Remove and return the key `k` with lowest priority value `v`. Amortized complexity `O(n)`.
+Remove and return the key `k` with lowest priority value `v`.
+Amortized complexity `O(n)`.
 """
 function DataStructures.dequeue!(pq::VectorPriorityQueue)
-    _, i = findmin(last, pq.data)
-    k, v = pq.data[i]
-    deleteat!(pq.data, i)
+    _, i = findmin(last, pq.pairs)
+    k, _ = pq.pairs[i]
+    deleteat!(pq.pairs, i)
     return k
+end
+
+"""
+    dequeue_pair!(pq::VectorPriorityQueue)
+
+Remove and return the pair `k => v` with lowest priority value `v`.
+Amortized complexity `O(n)`.
+"""
+function DataStructures.dequeue_pair!(pq::VectorPriorityQueue)
+    _, i = findmin(last, pq.pairs)
+    k, v = pq.pairs[i]
+    deleteat!(pq.pairs, i)
+    return k => v
 end
