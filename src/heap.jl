@@ -4,7 +4,7 @@
 Min priority queue with keys of type `K` and priority values of type `V`, stored using a binary heap from DataStructures.jl.
 
 # Fields
-- `heap::Heap`: heap of key-value pairs `k => v` ordered by increasing `v`
+- `heap::BinaryHeap{K,V}`: heap of key-value pairs `k => v` ordered by increasing `v`
 """
 struct HeapPriorityQueue{K,V}
     pairs::BinaryHeap{Pair{K,V},Base.Order.By{typeof(last),Base.Order.ForwardOrdering}}
