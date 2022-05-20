@@ -68,7 +68,13 @@ d5 = test_dijkstra(g_small, HeapPriorityQueue{Int,Float64});
 # Now we measure execution time and memory allocations for each of the queue types.
 
 function compare_dijkstra_versions(n_values)
-    speedups = Dict(
+    speed_gains = Dict(
+        "PriorityQueue" => Float64[],
+        "VectorPriorityQueue" => Float64[],
+        "SortedVectorPriorityQueue" => Float64[],
+        "HeapPriorityQueue" => Float64[],
+    )
+    memory_gains = Dict(
         "PriorityQueue" => Float64[],
         "VectorPriorityQueue" => Float64[],
         "SortedVectorPriorityQueue" => Float64[],
@@ -77,54 +83,87 @@ function compare_dijkstra_versions(n_values)
     for n in n_values
         @info "Testing grids of side length $n"
         g = Graphs.grid([n, n])
-        t0 = @elapsed for _ in 1:5
+        _, t0, m0, _, _ = @timed for _ in 1:5
             test_dijkstra_default(g)
         end
-        t1 = @elapsed for _ in 1:5
+        _, t1, m1, _, _ = @timed for _ in 1:5
             test_dijkstra(g, PriorityQueue{Int,Float64})
         end
-        t2 = @elapsed for _ in 1:5
+        _, t2, m2, _, _ = @timed for _ in 1:5
             test_dijkstra(g, VectorPriorityQueue{Int,Float64})
         end
-        t3 = @elapsed for _ in 1:5
+        _, t3, m3, _, _ = @timed for _ in 1:5
             test_dijkstra(g, SortedVectorPriorityQueue{Int,Float64})
         end
-        t4 = @elapsed for _ in 1:5
+        _, t4, m4, _, _ = @timed for _ in 1:5
             test_dijkstra(g, HeapPriorityQueue{Int,Float64})
         end
-        push!(speedups["PriorityQueue"], t0 / t1)
-        push!(speedups["VectorPriorityQueue"], t0 / t2)
-        push!(speedups["SortedVectorPriorityQueue"], t0 / t3)
-        push!(speedups["HeapPriorityQueue"], t0 / t4)
+        push!(speed_gains["PriorityQueue"], t0 / t1)
+        push!(speed_gains["VectorPriorityQueue"], t0 / t2)
+        push!(speed_gains["SortedVectorPriorityQueue"], t0 / t3)
+        push!(speed_gains["HeapPriorityQueue"], t0 / t4)
+        push!(memory_gains["PriorityQueue"], m0 / m1)
+        push!(memory_gains["VectorPriorityQueue"], m0 / m2)
+        push!(memory_gains["SortedVectorPriorityQueue"], m0 / m3)
+        push!(memory_gains["HeapPriorityQueue"], m0 / m4)
+
     end
-    return speedups
+    return speed_gains, memory_gains
 end;
 
 # To gain precision, we could replace the built-in `@elapsed` with `@belapsed` from [BenchmarkTools.jl](https://github.com/JuliaCI/BenchmarkTools.jl).
 
-n_values = [10, 100, 1000]
-speedups = compare_dijkstra_versions(n_values)
+n_values = [10, 30, 100, 300, 1000]
+speed_gains, memory_gains = compare_dijkstra_versions(n_values)
 
 # Finally, let us plot the results.
 
 settings = [
     "HeapPriorityQueue", "SortedVectorPriorityQueue", "VectorPriorityQueue", "PriorityQueue"
 ]
+S = length(settings)
+N = length(n_values)
+
+# First we compare execution time
+
 plt = plot(;
     title="Dijkstra with no priority updates",
     xlabel="Grid side length",
-    ylabel="Speedup wrt. Graphs.jl",
+    ylabel="Speed gain wrt. Graphs.jl",
     ylim=(0, Inf),
-    xticks=(1:length(n_values), string.(n_values)),
+    xticks=(1:N, string.(n_values)),
     margin=5Plots.mm,
+    legend_position=:topright
 )
 for (k, setting) in enumerate(settings)
     bar!(
         plt,
-        (1:length(n_values)) .+ 0.7 * (k - (length(settings) + 1) / 2) / length(settings),
-        speedups[setting];
+        (1:N) .+ 0.7 * (k - (S + 1) / 2) / S,
+        speed_gains[setting];
         label=setting,
-        bar_width=0.7 / length(settings),
+        bar_width=0.7 / S,
+    )
+end
+plt
+
+# And we follow up with memory use
+
+plt = plot(;
+    title="Dijkstra with no priority updates",
+    xlabel="Grid side length",
+    ylabel="Memory gain wrt. Graphs.jl",
+    ylim=(0, Inf),
+    xticks=(1:N, string.(n_values)),
+    margin=5Plots.mm,
+    legend_position=:topleft
+)
+for (k, setting) in enumerate(settings)
+    bar!(
+        plt,
+        (1:N) .+ 0.7 * (k - (S + 1) / 2) / S,
+        memory_gains[setting];
+        label=setting,
+        bar_width=0.7 / S,
     )
 end
 plt
