@@ -22,6 +22,7 @@ makedocs(;
         prettyurls=get(ENV, "CI", "false") == "true",
         canonical="https://gdalle.github.io/FastPriorityQueues.jl",
         assets=String[],
+        edit_branch="main",
     ),
     pages=[
         "Home" => "index.md", "Benchmarks" => "benchmarks.md", "API reference" => "api.md"
