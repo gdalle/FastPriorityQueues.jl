@@ -1,5 +1,7 @@
 # FastPriorityQueues
 
+> This package was a prototype, it is not activtely maintained! Please use [DataStructures.jl](https://github.com/JuliaCollections/DataStructures.jl) instead!
+
 [![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://gdalle.github.io/FastPriorityQueues.jl/dev)
 [![Build Status](https://github.com/gdalle/FastPriorityQueues.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/gdalle/FastPriorityQueues.jl/actions/workflows/CI.yml?query=branch%3Amain)
 [![Coverage](https://codecov.io/gh/gdalle/FastPriorityQueues.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/gdalle/FastPriorityQueues.jl)
